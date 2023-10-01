@@ -1,0 +1,32 @@
+{
+  "name": "@electron-labs/aes-gcm-siv-circom",
+  "version": "0.0.1",
+  "description": "Circom circuits for aes-gcm-siv",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node node_modules/mocha/bin/_mocha --timeout 1000000",
+    "lint-check": "eslint test/*.test.js",
+    "lint": "eslint test/*.test.js --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Electron-Labs/aes_gcm-circom.git"
+  },
+  "author": "Electron Labs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Electron-Labs/aes_gcm-circom/issues"
+  },
+  "homepage": "https://github.com/Electron-Labs/aes_gcm-circom#readme",
+  "devDependencies": {
+    "circom_tester": "0.0.11",
+    "circomlib": "^2.0.3",
+    "circomlibjs": "^0.1.2",
+    "eslint": "^8.20.0",
+    "mocha": "^10.0.0",
+    "mocha-logger": "^1.0.8"
+  }
+}
