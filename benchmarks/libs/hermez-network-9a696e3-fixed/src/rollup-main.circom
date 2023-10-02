@@ -348,7 +348,7 @@ template RollupMain(nTx, nLevels, maxL1Tx, maxFeeTx){
         rollupTx[i].ay1 <== ay1[i];
         rollupTx[i].ethAddr1 <== ethAddr1[i];
         for (j = 0; j < nLevels+1; j++) {
-            rollupTx[i].siblings1[j] <== siblings1[i][j]
+            rollupTx[i].siblings1[j] <== siblings1[i][j];
         }
         rollupTx[i].isOld0_1 <== isOld0_1[i];
         rollupTx[i].oldKey1 <== oldKey1[i];
@@ -363,7 +363,7 @@ template RollupMain(nTx, nLevels, maxL1Tx, maxFeeTx){
         rollupTx[i].ay2 <== ay2[i];
         rollupTx[i].ethAddr2 <== ethAddr2[i];
         for (j = 0; j < nLevels+1; j++) {
-            rollupTx[i].siblings2[j] <== siblings2[i][j]
+            rollupTx[i].siblings2[j] <== siblings2[i][j];
         }
         rollupTx[i].isOld0_2 <== isOld0_2[i];
         rollupTx[i].oldKey2 <== oldKey2[i];
@@ -412,7 +412,7 @@ template RollupMain(nTx, nLevels, maxL1Tx, maxFeeTx){
         feeTx[i].ethAddr <== ethAddr3[i];
 
         for (j = 0; j < nLevels+1; j++) {
-            feeTx[i].siblings[j] <== siblings3[i][j]
+            feeTx[i].siblings[j] <== siblings3[i][j];
         }
     }
 

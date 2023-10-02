@@ -9,7 +9,7 @@ include "./rollup-tx-states.circom";
 include "./lib/hash-state.circom";
 include "./rq-tx-verifier.circom";
 include "./lib/utils-bjj.circom";
-include "./lib/decode-float.circom"
+include "./lib/decode-float.circom";
 
 /**
  * Process a rollup transaction

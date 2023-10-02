@@ -1,0 +1,34 @@
+import { ByteVector } from "@chainsafe/ssz";
+export declare type Bytes4 = ByteVector;
+export declare type Bytes8 = ByteVector;
+export declare type Bytes20 = ByteVector;
+export declare type Bytes32 = ByteVector;
+export declare type Bytes48 = ByteVector;
+export declare type Bytes96 = ByteVector;
+export declare type Uint8 = number;
+export declare type Uint16 = number;
+export declare type Uint32 = number;
+export declare type Number64 = number;
+export declare type Uint64 = bigint;
+export declare type Uint128 = bigint;
+export declare type Uint256 = bigint;
+export declare type Slot = Number64;
+export declare type Epoch = Number64;
+export declare type SyncPeriod = Number64;
+export declare type CommitteeIndex = Number64;
+export declare type SubCommitteeIndex = Number64;
+export declare type ValidatorIndex = Number64;
+export declare type Gwei = Uint64;
+export declare type Root = Bytes32;
+export declare type Version = Bytes4;
+export declare type DomainType = Bytes4;
+export declare type ForkDigest = Bytes4;
+export declare type Domain = Bytes32;
+export declare type BLSPubkey = Bytes48;
+export declare type BLSSecretKey = Bytes32;
+export declare type BLSSignature = Bytes96;
+export declare type ParticipationFlags = Uint8;
+export declare type ExecutionAddress = Bytes20;
+/** Common non-spec type to represent roots as strings */
+export declare type RootHex = string;
+//# sourceMappingURL=types.d.ts.map

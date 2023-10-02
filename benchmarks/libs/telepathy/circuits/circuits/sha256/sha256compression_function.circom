@@ -23,11 +23,11 @@ function ssigma1(x) {
     return rrot(x,17) ^ rrot(x,19) ^ (x >> 10);
 }
 
-function Maj(x, y, z) {
+function MajT(x, y, z) {
     return (x&y) ^ (x&z) ^ (y&z);
 }
 
-function Ch(x, y, z) {
+function ChT(x, y, z) {
     return (x & y) ^ ((0xFFFFFFFF ^x) & z);
 }
 
@@ -82,8 +82,8 @@ function sha256compression(hin, inp) {
         } else {
             w[i] = (ssigma1(w[i-2]) + w[i-7] + ssigma0(w[i-15]) + w[i-16]) & 0xFFFFFFFF;
         }
-        T1 = (h + bsigma1(e) + Ch(e,f,g) + sha256K(i) + w[i]) & 0xFFFFFFFF;
-        T2 = (bsigma0(a) + Maj(a,b,c)) & 0xFFFFFFFF;
+        T1 = (h + bsigma1(e) + ChT(e,f,g) + sha256K(i) + w[i]) & 0xFFFFFFFF;
+        T2 = (bsigma0(a) + MajT(a,b,c)) & 0xFFFFFFFF;
 
         h=g;
         g=f;

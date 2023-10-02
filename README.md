@@ -15,6 +15,7 @@ docker run -it zkap
 ```bash
 python ./eval.py
 ```
+Because of new bugs introduced by LLVM and Circom updates, a few benchmarks (around 10) are broken, we will fix them later.
 
 ### To test on your own circuits:
 ```bash

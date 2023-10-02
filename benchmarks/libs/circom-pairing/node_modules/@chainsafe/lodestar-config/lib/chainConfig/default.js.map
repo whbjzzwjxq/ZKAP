@@ -1,0 +1,1 @@
+{"version":3,"file":"default.js","sourceRoot":"","sources":["../../src/chainConfig/default.ts"],"names":[],"mappings":";;;AAAA,gEAAqE;AAErE,+CAAyD;AACzD,+CAAyD;AAEzD,IAAI,kBAAgC,CAAC;AAY7B,gDAAkB;AAV1B,QAAQ,+BAAa,EAAE;IACrB,KAAK,4BAAU,CAAC,OAAO;QACrB,6BAAA,kBAAkB,GAAG,qBAAO,CAAC;QAC7B,MAAM;IACR,KAAK,4BAAU,CAAC,OAAO,CAAC;IACxB;QACE,6BAAA,kBAAkB,GAAG,qBAAO,CAAC;QAC7B,MAAM;CACT"}

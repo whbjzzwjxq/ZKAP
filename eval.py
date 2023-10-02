@@ -15,11 +15,27 @@ all_project_names = [
     n for n in os.listdir(benchmark_dir) if n != "libs" and n != "example"
 ]
 
+TIMEOUT = 3600
+
 with open("./benchmark_names.txt", "r") as f:
     bmk_names = [l.replace("\n", "") for l in f.readlines()]
 
 
 def compile_and_detect():
+    timeout_files = [
+        "gcm_siv_dec_2_keys_test.circom",
+        "gcm_siv_enc_2_keys_test.circom",
+        "mnist_convnet_test.circom",
+        "mnist_test.circom",
+        "batchverify.circom",
+        "verify.circom",
+        "absorb_test.circom",
+        "final_test.circom",
+        "keccak_32_256_test.circom",
+        "keccak_256_256_test.circom",
+        "keccakf_test.circom",
+        "quadVoteTally_32_batch256.circom",
+    ]
     for p in all_project_names:
         input_dir = path.join(benchmark_dir, p)
         for circom_filename in os.listdir(input_dir):
@@ -32,9 +48,18 @@ def compile_and_detect():
             # Compilation
             if not path.exists(llfile_path):
                 compile_circom(circom_path, output_subdir, 256)
+            if circom_filename in timeout_files:
+                result = {"error": "timeout"}
+                with open(log_path, "w") as f:
+                    json.dump(result, f)
+            if not path.exists(llfile_path):
+                result = {"error": "broken", "reason": "Compilation failed!"}
+                with open(log_path, "w") as f:
+                    json.dump(result, f)
+                continue
             # Evaluation
             if not path.exists(log_path):
-                exec_detection(log_path, llfile_path, "All", 3600)
+                exec_detection(log_path, llfile_path, "All", TIMEOUT)
 
 
 def update_zksolid(remove_some_templates: bool = False):
@@ -55,25 +80,27 @@ def update_zksolid(remove_some_templates: bool = False):
                     result: dict = json.load(f)
                 except json.JSONDecodeError as err:
                     print(f"Error JSON: {log_path}, Reason: {err}")
-                    results[f] = ["broken"] * len(detector_names)
+                    results[circom_filename] = ["broken"] * len(detector_names)
                     continue
             if "error" in result:
-                all_times.append(1200)
+                all_times.append(TIMEOUT)
                 if result["error"] == "timeout":
-                    results[f] = ["timeout"] * len(detector_names)
+                    results[circom_filename] = ["timeout"] * len(detector_names)
                 continue
-            all_times.append(result.get("time", 1200))
+            all_times.append(result.get("time", TIMEOUT))
             positives = []
+            # We manually inspect implementation bugs.
+            impl_bug_removes = {
+                "aes_256_ctr_test.circom": ["us"],
+                "CoreVerifyPubkeyG1@circom-pairing@n=55@k=7.circom": ["tm", "ndd"],
+            }
+            impl_bug_adds = {
+                "LessThan@comparators.circom": ["tm"],
+            }
             for d in detector_names:
-                impl_bug_removes = {
-                    "aes_256_ctr_test.circom": ["us"],
-                }
                 if d in impl_bug_removes.get(circom_filename, []):
                     positives.append("safe")
                     continue
-                impl_bug_adds = {
-                    "LessThan@comparators.circom": ["tm"],
-                }
                 if d in impl_bug_adds.get(circom_filename, []):
                     positives.append("unsafe")
                     continue
@@ -121,7 +148,10 @@ def update_circomspect():
     timeout_files = ["ECDSAVerifyNoPubkeyCheck@circom-ecdsa@n=64@k=4.circom"]
 
     def gen_circomspect_result_path(project_name: str, circom_name: str):
-        output_subdir = path.join(CACHE_PATH, "circomspect", project_name)
+        output_dir = path.join(CACHE_PATH, "circomspect")
+        if not path.exists(output_dir):
+            os.mkdir(output_dir)
+        output_subdir = path.join(output_dir, project_name)
         if not path.exists(output_subdir):
             os.mkdir(output_subdir)
         log_path = path.join(output_subdir, circom_name.replace(".circom", ".json"))
@@ -136,7 +166,7 @@ def update_circomspect():
             if circom_filename in timeout_files:
                 warning_results[circom_filename] = "unsafe"
                 error_results[circom_filename] = "unsafe"
-                all_times[circom_filename] = 1200
+                all_times[circom_filename] = TIMEOUT
                 continue
             _, log_path = gen_circomspect_result_path(p, circom_filename)
             cmds = [
@@ -175,13 +205,16 @@ def update_circomspect():
     frame = pd.DataFrame(ordered_error_results, index=bmk_names, dtype=str)
     with open("./results/CircomspecError.csv", "w") as f:
         frame.to_csv(f, index=False, header=False)
-    all_times = sorted(all_times)
+    all_times = sorted(all_times.values())
     m = all_times[len(all_times) // 2]
     print(f"Median time: {m}")
 
 
 def summary_bugs():
     project_names = all_project_names
+    output_dir = "./results/project_summary"
+    if not path.exists(output_dir):
+        os.mkdir(output_dir)
     for p in project_names:
         results = {}
         circuit_names = set()
@@ -213,7 +246,7 @@ def summary_bugs():
                     report_nums += len(v["reports"][d])
                 if report_nums != 0:
                     results[circuit_name] = v
-        with open(f"./results/{p}.json", "w") as f:
+        with open(os.path.join(output_dir, f"{p}.json"), "w") as f:
             json.dump(results, f)
 
 

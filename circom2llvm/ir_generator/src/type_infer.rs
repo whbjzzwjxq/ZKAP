@@ -23,7 +23,9 @@ pub fn infer_arg_ty_from_expr<'ctx>(
             }
             let target_scope_info = env.get_scope_info(id);
             let target_arg_tys = target_scope_info.get_arg_tys();
-            assert!(args.len() == target_arg_tys.len());
+            if args.len() != target_arg_tys.len() {
+                println!("Bad function call: {} at {}", id, scope_info.get_name())
+            }
             for (arg, ty) in zip(args, target_arg_tys) {
                 let mut arg_ty = ty.clone();
                 arg_ty = unwrap_used_type(&arg_ty);

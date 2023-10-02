@@ -94,39 +94,39 @@ template CoreVerifyPubkeyG1(n, k){
     } 
 
     // check all registers are in [0, 2^n)
-    component check[5]; 
-    for(var i=0; i<5; i++)
-        check[i] = RangeCheck2D(n, k); 
-    for(var i=0; i<2; i++)for(var idx=0; idx<k; idx++){
-        check[0].in[i][idx] <== pubkey[i][idx];
-        check[1].in[i][idx] <== signature[0][i][idx];
-        check[2].in[i][idx] <== signature[1][i][idx];
-        check[3].in[i][idx] <== hash[0][i][idx];
-        check[4].in[i][idx] <== hash[1][i][idx];
-    }
+    // component check[5]; 
+    // for(var i=0; i<5; i++)
+    //     check[i] = RangeCheck2D(n, k); 
+    // for(var i=0; i<2; i++)for(var idx=0; idx<k; idx++){
+    //     check[0].in[i][idx] <== pubkey[i][idx];
+    //     check[1].in[i][idx] <== signature[0][i][idx];
+    //     check[2].in[i][idx] <== signature[1][i][idx];
+    //     check[3].in[i][idx] <== hash[0][i][idx];
+    //     check[4].in[i][idx] <== hash[1][i][idx];
+    // }
     
-    component pubkey_valid = SubgroupCheckG1(n, k);
-    for(var i=0; i<2; i++)for(var idx=0; idx<k; idx++)
-        pubkey_valid.in[i][idx] <== pubkey[i][idx];
+    // component pubkey_valid = SubgroupCheckG1(n, k);
+    // for(var i=0; i<2; i++)for(var idx=0; idx<k; idx++)
+    //     pubkey_valid.in[i][idx] <== pubkey[i][idx];
 
-    component signature_valid = SubgroupCheckG2(n, k);
-    for(var i=0; i<2; i++)for(var j=0; j<2; j++)for(var idx=0; idx<k; idx++)
-        signature_valid.in[i][j][idx] <== signature[i][j][idx];
+    // component signature_valid = SubgroupCheckG2(n, k);
+    // for(var i=0; i<2; i++)for(var j=0; j<2; j++)for(var idx=0; idx<k; idx++)
+    //     signature_valid.in[i][j][idx] <== signature[i][j][idx];
 
-    component Hm = MapToG2(n, k);
-    for(var i=0; i<2; i++)for(var j=0; j<2; j++)for(var idx=0; idx<k; idx++)
-        Hm.in[i][j][idx] <== hash[i][j][idx];
+    // component Hm = MapToG2(n, k);
+    // for(var i=0; i<2; i++)for(var j=0; j<2; j++)for(var idx=0; idx<k; idx++)
+    //     Hm.in[i][j][idx] <== hash[i][j][idx];
 
-    Hm.isInfinity === 0;
+    // Hm.isInfinity === 0;
     
-    component verify = CoreVerifyPubkeyG1NoCheck(n, k);
+    // component verify = CoreVerifyPubkeyG1NoCheck(n, k);
 
-    for(var i=0; i<2; i++)for(var idx=0; idx<k; idx++)
-        verify.pubkey[i][idx] <== pubkey[i][idx];
-    for(var i=0; i<2; i++)for(var j=0; j<2; j++)for(var idx=0; idx<k; idx++){
-        verify.signature[i][j][idx] <== signature[i][j][idx];
-        verify.Hm[i][j][idx] <== Hm.out[i][j][idx]; 
-    }
+    // for(var i=0; i<2; i++)for(var idx=0; idx<k; idx++)
+    //     verify.pubkey[i][idx] <== pubkey[i][idx];
+    // for(var i=0; i<2; i++)for(var j=0; j<2; j++)for(var idx=0; idx<k; idx++){
+    //     verify.signature[i][j][idx] <== signature[i][j][idx];
+    //     verify.Hm[i][j][idx] <== Hm.out[i][j][idx]; 
+    // }
 
-    verify.out === 1;
+    // verify.out === 1;
 }

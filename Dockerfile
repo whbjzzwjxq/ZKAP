@@ -43,9 +43,10 @@ ENV CARGO_PATH=/root/.cargo/bin
 ENV PATH=${PATH}:${CARGO_PATH}
 COPY ./circom2llvm /zkap/circom2llvm
 RUN cargo install --path ./circom2llvm/circom2llvm/
-RUN cargo install circomspect --version=0.7.2
+RUN cargo install --path ./circomspect/cli/
 
 # Install python requirements
+RUN pip3 install pandas
 
 # Copy files
 COPY ./benchmarks /zkap/benchmarks

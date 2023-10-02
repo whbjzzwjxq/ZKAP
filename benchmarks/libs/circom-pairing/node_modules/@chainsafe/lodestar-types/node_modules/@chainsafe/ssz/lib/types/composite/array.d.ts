@@ -1,0 +1,86 @@
+import { ArrayLike, CompositeValue, Json } from "../../interface";
+import { IJsonOptions, Type } from "../type";
+import { BasicType } from "../basic";
+import { CompositeType } from "./abstract";
+import { Gindex, Tree } from "@chainsafe/persistent-merkle-tree";
+export interface IArrayOptions {
+    elementType: Type<any>;
+}
+export declare abstract class BasicArrayType<T extends ArrayLike<unknown>> extends CompositeType<T> {
+    elementType: BasicType<unknown>;
+    constructor(options: IArrayOptions);
+    abstract struct_getLength(value: T): number;
+    abstract getMaxLength(): number;
+    abstract getMinLength(): number;
+    struct_getSerializedLength(value: T): number;
+    getMaxSerializedLength(): number;
+    getMinSerializedLength(): number;
+    struct_assertValidValue(value: unknown): asserts value is T;
+    struct_equals(value1: T, value2: T): boolean;
+    struct_clone(value: T): T;
+    struct_deserializeFromBytes(data: Uint8Array, start: number, end: number, emptyOk?: boolean): T;
+    struct_serializeToBytes(value: T, output: Uint8Array, offset: number): number;
+    struct_getRootAtChunkIndex(value: T, index: number): Uint8Array;
+    struct_getPropertyNames(value: T): (string | number)[];
+    struct_convertFromJson(data: Json[]): T;
+    struct_convertToJson(value: T): Json;
+    struct_convertToTree(value: T): Tree;
+    tree_convertToStruct(target: Tree): T;
+    abstract tree_getLength(target: Tree): number;
+    tree_getSerializedLength(target: Tree): number;
+    tree_deserializeFromBytes(data: Uint8Array, start: number, end: number): Tree;
+    tree_serializeToBytes(target: Tree, output: Uint8Array, offset: number): number;
+    getPropertyGindex(prop: PropertyKey): Gindex;
+    getPropertyType(prop: PropertyKey): BasicType<unknown>;
+    tree_iterateValues(target: Tree): IterableIterator<Tree | unknown>;
+    tree_readonlyIterateValues(target: Tree): IterableIterator<Tree | unknown>;
+    tree_getValues(target: Tree): (Tree | unknown)[];
+    tree_readonlyGetValues(target: Tree): (Tree | unknown)[];
+    getChunkOffset(index: number): number;
+    getChunkIndex(index: number): number;
+    tree_getValueAtIndex(target: Tree, index: number): T[number];
+    tree_setValueAtIndex(target: Tree, index: number, value: T[number], expand?: boolean): boolean;
+    tree_getProperty(target: Tree, property: keyof T): T[keyof T];
+    tree_setProperty(target: Tree, property: number, value: T[number], expand?: boolean): boolean;
+    tree_deleteProperty(target: Tree, property: number): boolean;
+    tree_getPropertyNames(target: Tree): string[];
+    bytes_getVariableOffsets(target: Uint8Array): [number, number][];
+    tree_getLeafGindices(target?: Tree, root?: Gindex): Gindex[];
+}
+export declare abstract class CompositeArrayType<T extends ArrayLike<unknown>> extends CompositeType<T> {
+    elementType: CompositeType<CompositeValue>;
+    constructor(options: IArrayOptions);
+    abstract struct_getLength(value: T): number;
+    abstract getMaxLength(): number;
+    abstract getMinLength(): number;
+    struct_getSerializedLength(value: T): number;
+    getMaxSerializedLength(): number;
+    getMinSerializedLength(): number;
+    struct_assertValidValue(value: unknown): asserts value is T;
+    struct_equals(value1: T, value2: T): boolean;
+    struct_clone(value: T): T;
+    struct_deserializeFromBytes(data: Uint8Array, start: number, end: number, emptyOk?: boolean): T;
+    struct_serializeToBytes(value: T, output: Uint8Array, offset: number): number;
+    struct_getRootAtChunkIndex(value: T, index: number): Uint8Array;
+    struct_getPropertyNames(value: T): (string | number)[];
+    struct_convertFromJson(data: Json[], options?: IJsonOptions): T;
+    struct_convertToJson(value: T, options?: IJsonOptions): Json;
+    struct_convertToTree(value: T): Tree;
+    tree_convertToStruct(target: Tree): T;
+    abstract tree_getLength(target: Tree): number;
+    tree_getSerializedLength(target: Tree): number;
+    tree_serializeToBytes(target: Tree, output: Uint8Array, offset: number): number;
+    getPropertyGindex(prop: PropertyKey): Gindex;
+    getPropertyType(prop: PropertyKey): CompositeType<CompositeValue>;
+    tree_getProperty<V extends keyof T>(target: Tree, property: V): Tree | unknown;
+    tree_setProperty(target: Tree, property: number, value: Tree, expand?: boolean): boolean;
+    tree_deleteProperty(target: Tree, property: number): boolean;
+    tree_getPropertyNames(target: Tree): (string | number)[];
+    tree_iterateValues(target: Tree): IterableIterator<Tree | unknown>;
+    tree_readonlyIterateValues(target: Tree): IterableIterator<Tree | unknown>;
+    tree_getValues(target: Tree): (Tree | unknown)[];
+    tree_readonlyGetValues(target: Tree): (Tree | unknown)[];
+    bytes_getVariableOffsets(target: Uint8Array): [number, number][];
+    tree_getLeafGindices(target?: Tree, root?: Gindex): Gindex[];
+}
+//# sourceMappingURL=array.d.ts.map

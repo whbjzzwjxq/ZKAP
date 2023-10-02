@@ -83,6 +83,8 @@ def detect(args):
         # Compilation
         if not path.exists(llfile_path) or args.refresh:
             compile_circom(circom_path, output_subdir, args.arraysize)
+        if not path.exists(llfile_path):
+            raise RuntimeError(f"Compilation for {circom_filename} failed!")
         # Evaluation
         if args.graphviz:
             if not path.exists(graphviz_pic_path) or args.refresh:

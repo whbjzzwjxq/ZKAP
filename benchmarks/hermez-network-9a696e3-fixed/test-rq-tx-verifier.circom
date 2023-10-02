@@ -1,4 +1,4 @@
 pragma circom 2.0.6;
 
-include "../libs/hermez-network-9a696e3-fixed/rq-tx-verifier.circom";
+include "../libs/hermez-network-9a696e3-fixed/src/rq-tx-verifier.circom";
 component main = RqTxVerifier();
