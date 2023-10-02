@@ -1,12 +1,12 @@
 #include "ProtocolFlowGraph.hpp"
 
 namespace {
-struct UnconstrainedCompInput : public ModulePass {
+struct PrintGraphInfo : public ModulePass {
     static char ID;
 
-    UnconstrainedCompInput() : ModulePass(ID) {}
+    PrintGraphInfo() : ModulePass(ID) {}
 
-    bool runOnModule(Module& M) override {
+    bool runOnModule(Module &M) override {
         auto graphs = initDetectedGraphs(M, true, false);
         auto results = json::Object();
         for (auto g : graphs) {
@@ -14,7 +14,6 @@ struct UnconstrainedCompInput : public ModulePass {
             g_result["info"] = g->collector->format();
             g_result["graph"] = g->format();
             auto report = json::Object();
-            report["usci"] = g->detectUnconstrainedCompInput();
             g_result["reports"] = obj2value(report);
             results[g->getName()] = obj2value(g_result);
         }
@@ -26,9 +25,7 @@ struct UnconstrainedCompInput : public ModulePass {
 };
 }  // namespace
 
-char UnconstrainedCompInput::ID = 0;
-static RegisterPass<UnconstrainedCompInput> X(
-    "UnconstrainedCompInput",
-    "Detect whether every input signal of any component is constrained in the "
-    "circuit",
-    false, false);
+char PrintGraphInfo::ID = 0;
+static RegisterPass<PrintGraphInfo> X(
+    "PrintGraphInfo", "PrintGraphInfo whether the PFG works or not.", false,
+    false);

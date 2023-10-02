@@ -147,7 +147,7 @@ class PFGraph {
     // IR Confirmed
     bool isTrivialInstruction(Value *v);
     bool isRewritableAssignment(PFGEdge *e);
-    NameVec detectInconsistentRewrite();
+    NameVec detectAssignmentMisuse();
 
     // NC (Deprecated)
     NameVec detectNonuniformConstraint();

@@ -1095,7 +1095,7 @@ bool PFGraph::isRewritableAssignment(PFGEdge *e) {
     return this->isTrivialInstruction(from->inst);
 }
 
-NameVec PFGraph::detectInconsistentRewrite() {
+NameVec PFGraph::detectAssignmentMisuse() {
     NameVec results = NameVec();
     for (auto p : this->edges) {
         auto e = p.second;

@@ -1,20 +1,11 @@
-add_llvm_library(Detectors MODULE
-
-    All.cpp
-    MissingAssumptionCheck.cpp
-    NonuniformConstraint.cpp
-    UnconstrainedOutput.cpp
-    UnconstrainedCompInput.cpp
-    UnusedCompOutput.cpp
-    UnusedSignal.cpp
-
-    Test.cpp
-    PrintGraphviz.cpp
-    
-    ProtocolFlowGraph.cpp
+add_llvm_library(detectors MODULE
     utils_arrayshapes.cpp
     utils_basicinfo.cpp
     utils.cpp
+    ProtocolFlowGraph.cpp
+    All.cpp
+    PrintGraphInfo.cpp
+    PrintGraphviz.cpp
     PLUGIN_TOOL
     opt
 )
