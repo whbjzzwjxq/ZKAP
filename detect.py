@@ -311,9 +311,15 @@ def update_zksolid(remove_some_templates: bool = False):
                 if d in ("nc", "qc"):
                     positives.append("safe")
                     continue
+                impl_bug_removes = {
+                    "aes_256_ctr_test.circom": ["ucs"],
+                }
                 if d in impl_bug_removes.get(circom_filename, []):
                     positives.append("safe")
                     continue
+                impl_bug_adds = {
+                    "LessThan@comparators.circom": ["tm"],
+                }
                 if d in impl_bug_adds.get(circom_filename, []):
                     positives.append("unsafe")
                     continue
@@ -345,7 +351,7 @@ def update_zksolid(remove_some_templates: bool = False):
                          columns=detector_names,
                          dtype=str)
     if remove_some_templates:
-        with open("./results/ZKSolidRS.csv", "w") as f:
+        with open("./results/ZKSolidRefined.csv", "w") as f:
             frame.to_csv(f, index=False, header=False)
     else:
         with open("./results/ZKSolid.csv", "w") as f:
@@ -574,15 +580,6 @@ def _main():
         execute(cmds)
     if args.statistic:
         statistic()
-
-
-impl_bug_removes = {
-    "aes_256_ctr_test.circom": ["ucs"],
-}
-
-impl_bug_adds = {
-    "LessThan@comparators.circom": ["tm"],
-}
 
 if __name__ == "__main__":
     _main()
