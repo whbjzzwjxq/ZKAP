@@ -8,7 +8,7 @@ from typing import List
 
 LLVM_PATH = os.environ.get("LLVM_PATH")
 if LLVM_PATH is None:
-    raise FileNotFoundError("LLVM_PATH is not provided!")
+    raise FileNotFoundError("ENV Variable LLVM_PATH is not provided!")
 
 OPT_PATH = path.join(LLVM_PATH, "bin/opt")
 if not path.exists(OPT_PATH):
@@ -102,7 +102,7 @@ def gen_result_path(project_name: str, circom_name: str, output_dir: str):
         output_subdir, circom_name.replace(".circom", ".info.json")
     )
     graphviz_path = path.join(output_subdir, circom_name.replace(".circom", ".dot"))
-    graphviz_pic_path = path.join(output_subdir, circom_name.replace(".circom", ".dot"))
+    graphviz_pic_path = path.join(output_subdir, circom_name.replace(".circom", ".png"))
     return (
         output_subdir,
         llfile_path,
