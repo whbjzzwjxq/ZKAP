@@ -6,7 +6,7 @@ This docker file is built on Ubuntu 20.04, X86_64 platform.
 It requires a free disk of around 100 GB and free memory of around 32 GB.
 If your machine doesn't have those resources, you could modify line 23 of the Dockerfile to use only one parallel for LLVM linking.
 ```bash
-docker build -t zkap .
+docker build -t zkap:latest .
 docker run -it zkap
 ```
 

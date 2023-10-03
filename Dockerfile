@@ -19,6 +19,7 @@ RUN git clone --depth 1 --branch release/13.x https://github.com/llvm/llvm-proje
 WORKDIR /zkap/llvm-project
 RUN cmake -S llvm -B build -G Ninja \
 -DLLVM_TARGETS_TO_BUILD="X86" \
+-DLLVM_ENABLE_ASSERTIONS=OFF \
 # If you have the out-of-memory problem (<16Gb Memory), add this option.
 # -DLLVM_PARALLEL_LINK_JOBS=1 \
 -DCMAKE_BUILD_TYPE=DEBUG
@@ -43,12 +44,17 @@ ENV CARGO_PATH=/root/.cargo/bin
 ENV PATH=${PATH}:${CARGO_PATH}
 COPY ./circom2llvm /zkap/circom2llvm
 RUN cargo install --path ./circom2llvm/circom2llvm/
+
+COPY ./circomspect /zkap/circomspect
 RUN cargo install --path ./circomspect/cli/
 
 # Install python requirements
-RUN pip3 install pandas
+RUN pip install pandas
 
 # Copy files
 COPY ./benchmarks /zkap/benchmarks
 COPY ./benchmark_names.txt /zkap/benchmark_names.txt
-
+COPY ./eval_detect.py ./eval_detect.py
+COPY ./eval.py ./eval.py
+COPY ./utils ./utils
+RUN mkdir ./results
