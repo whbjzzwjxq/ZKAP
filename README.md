@@ -11,7 +11,7 @@ docker run -it zkap
 ```
 
 ## Usage
-### To reproduce the evaluation of ZKAP paper:
+### To reproduce the evaluation of the ZKAP paper:
 ```bash
 python ./eval.py
 ```
@@ -27,6 +27,6 @@ python ./eval_detect.py -i ./project -o ./output
 [Google Sheet](https://docs.google.com/spreadsheets/d/1HPP3sJD-DcvmIO8pQpjcatmPSBrrS-iwS01wEvdYZB4/edit?usp=sharing)
 
 ## Citation
-This paper is accepted by USENIX Security '24
-[Pre-print version](https://eprint.iacr.org/2023/190)
-TODO
+This paper is accepted by USENIX Security '24.
+
+[USENIX Website](https://www.usenix.org/conference/usenixsecurity24/presentation/wen)
